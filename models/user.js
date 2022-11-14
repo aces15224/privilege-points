@@ -17,7 +17,6 @@ module.exports = function(sequelize, DataTypes){
         },
         email:{
             type: DataTypes.STRING,
-            allowNull: false,
             validate:{
                 len: [1,100],
                 isEmail: true, 
@@ -27,6 +26,9 @@ module.exports = function(sequelize, DataTypes){
             type: DataTypes.STRING,
             primaryKey: true,
         },
+        accessId:{
+            type: DataTypes.STRING,
+        },
         password:{
             type: DataTypes.STRING,
             allowNull: false,
@@ -34,9 +36,16 @@ module.exports = function(sequelize, DataTypes){
                 len:[5,65]
             }
         },
+        pPts:{ //privilege points
+            type: DataTypes.INTEGER,
+            max: 100,
+            defaultValue: 0,
+        },
+        secondaryAccts:{
+            type: DataTypes.STRING,
+        },
         createdAt:{
             type:DataTypes.DATE
-
         }, 
         updatedAt:{
             type:DataTypes.DATE

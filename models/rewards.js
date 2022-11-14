@@ -1,38 +1,17 @@
 module.exports = function(sequelize, DataTypes){
     var Rewards = sequelize.define("Rewards", {
-        reward1 : {
-            type: DataTypes.STRING,
-        },
-        reward2 : {
-            type: DataTypes.STRING,
-        },
-        reward3 : {
-            type: DataTypes.STRING,
-        },
-        reward4 : {
-            type: DataTypes.STRING,
-        },
-        reward5 : {
-            type: DataTypes.STRING,
-        },
-        reward6 : {
-            type: DataTypes.STRING,
-        },
-        reward7 : {
-            type: DataTypes.STRING,
-        },
-        reward8 : {
-            type: DataTypes.STRING,
-        },
-        reward9 : {
-            type: DataTypes.STRING,
-        },
-        reward10 : {
+        RewardList : {
             type: DataTypes.STRING,
         },
         familyId:{
             type: DataTypes.STRING,
-        },    
+        },
+        favorites:{
+            type: DataTypes.STRING,
+        }, 
+        history:{
+            type: DataTypes.STRING
+        }     
     })
 
     Rewards.associate = function(models){    
