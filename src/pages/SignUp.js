@@ -158,6 +158,7 @@ const SignUp = ()=>{
                 firstName,
                 lastName,
                 password,
+                primary : true
             })
         })
         .then(response => response.json())
@@ -284,8 +285,6 @@ const SignUp = ()=>{
                         </div>
                     </div>    
                 </div>
-                
-                {/* <Footer/> */}
             </>
         )    
     }

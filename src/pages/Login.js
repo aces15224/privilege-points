@@ -1,11 +1,11 @@
 import React, {useEffect, useContext} from "react";
-// import AuthContext from "../App"
+import AuthContext from "../App"
 import Navbar from "../components/NavBar";
 // import Footer from "../components/Footer";
 
 const LoginPage = ()=>{
     const inputStyle = {border: "1px solid #616263"}
-    // const {login, businessName, loginFunction} = useContext(AuthContext);
+    const {login, businessName, loginFunction} = useContext(AuthContext);
 
     return(
         <>

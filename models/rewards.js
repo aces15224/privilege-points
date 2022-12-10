@@ -23,30 +23,3 @@ module.exports = function(sequelize, DataTypes){
     };
     return Rewards;  
 }
-
-// module.exports = function(sequelize, DataTypes){
-//     var Rewards = sequelize.define("Rewards", {
-//         description : {
-//             type: DataTypes.STRING,
-//         },
-//         price :{
-//             type: DataTypes.INTEGER,
-//         },
-//         favorite:{
-//             type: DataTypes.BOOLEAN,
-//             defaultValue: false
-//         }
-//     })
-
-//     Rewards.associate = function(models){
-//         Rewards.hasOne(models.Rewards, {
-//             onDelete: "cascade"       
-//         });
-//         Rewards.hasOne(models.TaskList, {
-//             onDelete: "cascade"
-//         });
-//         Rewards.hasMany(models.UserSecondary)
-//     };
-//     return Rewards;
-    
-// }

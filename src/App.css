@@ -1,25 +1,145 @@
 .App {
   text-align: center;
 }
-a{
-  color: white;
-}
+/* .spanStyle{
+  color:blue;
+} */
 body{
   /* background-color: #12db12; */
   /* background-color: #0b0b0b; */
-  background: #143557;
-background: linear-gradient(to top, #143557 0%, #101836 89%);
+  margin: 0;
+  padding: 0;
+  /* background: #101836; */
+
+  /* background: #143557;  
+background: linear-gradient(to top, #143557 0%, #101836 89%); */
 
   color: white;
 }
-/* .background{
-  background: #3AA7AB;
-  background: radial-gradient(circle farthest-corner at center center, #3AA7AB 9%, #101836 89%);
+#homePic{
+  background-color:white;
+  background-image: url("../homePic.png");
+  height: 500px;
+  background-position: right bottom; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  /* background-size: cover; ; */
+}
+.completeCenter{
+  align-items: center;
+  display: flex;
+  /* justify-content: center; */
+}
+#homeHeader{
+  font-weight: 800;
+    font-size: 3rem;
+    text-shadow: 1px 1px #f0ff13c4;
+}
+.homeHeaders{
+  font-weight: 800;
+  font-size: 2.5rem;
+  text-shadow: 1px 1px #f0ff13c4;
+  margin-bottom:0;
+}
+
+.homeSubHeaders {
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #7878f9;
+  /* text-shadow: 1px 1px #2c2b2b; */
+}
+/* .btnStyle{
+  background: none;
+    border: 3px solid rgb(39, 33, 51);
+       box-shadow: rgb(88 205 209) 0px 0px 0px 4px inset;
+
+    cursor: pointer;
+    font: 700 1rem "Roboto Slab", sans-serif;
+    padding: 0.7em;
+    letter-spacing: 0.05rem;
+    box-shadow: rgb(88 205 209) 0px 0px 0px 4px inset;
+    color: rgb(88, 175, 209);
+    width: 100%;
 } */
+.navStyle{
+  background-color: #101836;
+}
+a.navbar-brand:hover, a.nav-link:hover{
+  text-shadow: 1px 1px 2px #1b81ef;
+}
+#list_m{
+  margin-bottom:auto;
+}
+.themeCard{
+  /* border: 1px solid rgb(126, 117, 117);
+  box-shadow: white 0px 0px 5px; */
+  margin: 10px;
+  background: white;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 4px #999;
+}
+.userCard{
+  width: 33%;
+}
+.userCardBody{
+  padding: 1rem;
+}
+.inner-card{
+  height: 100%;
+  color: black;
+  padding:20px;
+}
+.listCard{
+  width: 33%;
+}
+a{
+  color: white;
+}
+.listLink{
+  color: #2b13f3;
+  font-size: .95em;
+  /* font-weight: 500; */
+}
+.listLink:hover{
+  color: #61dafb;
+  /* font-weight: 600; */
+  text-decoration: underline;
+}
+.dashboard-container{
+  background-color: #f5f5f5;
+  /* min-height: 500px; */
+}
+
+  /* background: #3AA7AB;
+  background: radial-gradient(circle farthest-corner at center center, #3AA7AB 9%, #101836 89%);
+  */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
+
+/* Form Error CSS  */
+.dash-form-group{
+  font-weight: bold;
+  position: relative;
+}
+.input-w-error{
+  padding-right: 30px;
+}
+.error-icon{
+  color:red;
+  position: absolute;
+  top: 43px;
+  right: 10px;
+  opacity: 0;
+}
+.error{
+  color: red;
+  font-size: 12px;
+  font-weight: bold;
+}
+/*  */
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -41,6 +161,137 @@ background: linear-gradient(to top, #143557 0%, #101836 89%);
 .App-link {
   color: #61dafb;
 }
+.borderDiv{
+    padding: 2px;
+    background-color: rgb(79, 104, 126);
+    border: 1px solid rgb(126, 117, 117);
+    /* max-width: 350px; */
+    height: 100%;
+    box-shadow: white 0px 0px 5px;
+}
+.dashIcon{
+  font-size: 5em;
+  /* margin-top:1em; */
+}
+.userCardText{
+  font-size: 2em;
+}
+.cardSection{
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+.iconText{
+  /* font-size: 1.5em; */
+  padding: 0 0.5em;
+  margin: 1em auto;
+  font-weight: 700;
+  color: #363535;
+}
+.btnStyle{
+  background: none;
+  border: 3px solid #272133;
+  cursor: pointer;
+  line-height: 1.5;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: Roboto Slab, sans-serif;
+  padding: 0.5em;
+  letter-spacing: 0.05rem;
+  box-shadow: inset 0 0 0 4px #58cdd1;
+  color: #58afd1;
+  width: 100%;
+}
+/* .editTip, .deleteTip{
+  position: relative;
+  display: inline-block;
+}
+
+.editTip .editTipText, .deleteTip .deleteTipText {
+  visibility: hidden;
+  width: 100px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  right:0;
+  z-index: 1;
+  top: 1em;
+}
+.editTip:hover .editTipText, .deleteTip:hover .deleteTipText {
+  visibility: visible;
+}
+.editFormInnerDiv{
+  min-height: 315px;
+}
+.editFormTopDiv{
+  width: 75%;
+} */
+.spanStyle{
+  font-weight: bold;
+  text-shadow: 1px 1px 5px #a1f9ed;
+}
+
+/* Footer */
+.footer-basic {
+  padding:25px 0;
+  /* background-color:#ffffff; */
+  color:white;
+}
+
+.footer-basic ul {
+  padding:0;
+  list-style:none;
+  text-align:center;
+  font-size:18px;
+  line-height:1.6;
+  margin-bottom:0;
+}
+
+.footer-basic li {
+  padding:0 10px;
+}
+
+.footer-basic ul a {
+  color:inherit;
+  text-decoration:none;
+  /* opacity:0.8; */
+}
+
+.footer-basic ul a:hover {
+  opacity:1;
+}
+
+/* .footer-basic .social {
+  text-align:center;
+  padding-bottom:25px;
+}
+
+.footer-basic .social > a {
+  font-size:24px;
+  width:40px;
+  height:40px;
+  line-height:40px;
+  display:inline-block;
+  text-align:center;
+  border-radius:50%;
+  border:1px solid #ccc;
+  margin:0 8px;
+  color:inherit;
+  opacity:0.75;
+}
+
+.footer-basic .social > a:hover {
+  opacity:0.9;
+} */
+
+.footer-basic .copyright {
+  margin-top:10px;
+  text-align:center;
+  font-size:13px;
+  color:#aaa;
+  margin-bottom:0;
+}
 
 @keyframes App-logo-spin {
   from {
@@ -50,3 +301,175 @@ background: linear-gradient(to top, #143557 0%, #101836 89%);
     transform: rotate(360deg);
   }
 }
+
+@media screen and (min-width: 850px) and (max-width: 1080px){
+  .iconText{
+      font-size: 1em;
+      font-weight: 500;
+
+  }
+  .dashIcon{
+    font-size: 4em;
+  }
+  
+}
+ 
+@media screen and (min-width: 768px) and (max-width: 849px){
+  .iconText{
+    font-size: .9em;
+    font-weight: 500;
+  }
+  .dashIcon{
+    font-size: 3em;
+  }
+  .userCard{
+    width: 32%;
+    margin: 5px;
+  }
+  .footer-basic ul {
+    font-size: 16px;
+  }
+
+  .footer-basic li {
+    padding: 0px;
+  }
+  .list-inline-item:not(:last-child) {  
+    margin-right: 0px;
+  }
+  .userCardBody{
+    padding: .5em;
+  }
+  .btnStyle{
+    letter-spacing: 0;
+    box-shadow: inset 0 0 0 3px #58cdd1;
+    font-weight: 600;
+  }
+}
+@media screen and (min-width: 615px) and (max-width: 767px){
+  .footer-basic ul {
+    font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 575px) and (max-width: 767px){
+  .lists_Header{
+    font-size: 1.5em;
+    text-align: center;
+
+  }
+  .lists_subHeader{
+    font-size: 1em;
+    text-align: center;
+  }
+  .listCard{
+    width: 100%;
+  }
+  .cardSection{
+    flex-direction: column;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  /* .iconText{
+    font-weight: 500;
+  } */
+  .dashIcon{
+    font-size: 3em;
+  }
+  .userCardHolder{
+    flex-direction: column;
+    align-items: center;
+  }
+  .userCard{ 
+    width: 50%;
+  }
+  .navbar{
+    padding: 0.5rem;
+  }
+  .footer-basic li {
+    padding: 0px;
+  }
+  .list-inline-item:not(:last-child) {  
+    margin-right: 0px;
+  }
+  .footer-basic ul {
+    font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 500px) and (max-width: 574px){
+  #list_m{
+    margin-bottom: 10px;
+  }
+  .lists_Header{
+    font-size: 1.9em;
+  }
+  .lists_subHeader{
+    font-size: 1em;
+    /* text-align: center; */
+  }
+  .listCard{
+    width: 100%;
+  }
+  .cardSection{
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }  
+  /* .iconText{
+    font-size: .9em;
+    font-weight: 500;
+  } */
+  .dashIcon{
+    font-size: 3em;
+  }
+  .borderDiv{
+    height: auto;
+  }
+  
+  .userCardHolder{
+    flex-direction: column;
+    align-items: center;
+  }
+  .userCard{ 
+    width: 60%;
+  }
+  .navbar{
+    padding: 0.5rem;
+  }
+}
+
+
+
+@media screen and (min-width: 500px) and (max-width: 614px){
+  .footer-basic{
+    display:flex;
+    padding: 50px 0;
+  }
+  .footer-basic ul {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 499px){
+  .updateText{
+    font-size: 2rem;
+  }
+  
+  .userCardHolder{
+    flex-direction: column;
+    align-items: center;
+  }
+  .userCard{ 
+    width: 50%;
+  }
+  .footer-basic ul {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+}
+

@@ -1,121 +1,131 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import {Link} from "react-router-dom";
+import {AuthContext} from '../App';
 import { Icon } from '@iconify/react';
+import ListItem from './ListItem';
+import Adder from './Adder';
 
-import Adder from './Adder'
-const ListContainer = ({list, favs, submit, addTask, favorite, permission})=>{
-    const [match, setMatch] = useState(null)
+
+const ListContainer = ({list, favs, submit, addTask, favorite, permission, page, if_Fav, rewards, repost})=>{
+    const [match, setMatch] = useState(null);
+    const {userName} = useContext(AuthContext);
+
     useEffect(()=>{
-        console.log(match)
 
     },[match])
 
     const _addTask = (obj, prevTask)=>{
         setMatch(null);
         addTask(obj, prevTask);
-        console.log("success")
-        console.log(obj)
-        console.log(prevTask)
     };
-    const BtnGroup1 = (task, val)=>{
-        return (
-            <div style={{width: "30%", padding: "5px", marginBottom: 0, display: "flex", justifyContent: "end"}}>
-                <Icon style={{color: "black"}} icon="ci:edit" onClick={()=>setMatch(task)} />
-                <Icon style={{color: "black"}} icon="material-symbols:delete-forever" onClick={()=> submit(task)} /> 
-                <Icon icon="ic:twotone-favorite" onClick={()=> favorite(val)} />
-            </div>
-        )
+
+    const _addFav = (val)=>{
+        console.log(val)
+        val.fav = val.fav === false ? true : false;
+        favorite(val);
     }
-    const BtnGroup2 = (task)=>{
-        return(
-            <div style={{width: "30%", padding: "5px", marginBottom: 0, display: "flex", justifyContent: "end"}}>
-                {/* incomplete */}
-                <Icon style={{color: "red"}} icon="akar-icons:circle-x" />
-                {/* complete */}
-                <Icon style={{color: "green"}} icon="fluent-mdl2:completed" onClick={()=> submit(task)}/> 
-            </div>    
-        )
-    }
-    const BtnGroup3 = (task)=>{
-        return (
-            <div style={{padding: "5px", marginBottom: 0, display: "flex", justifyContent: "end"}}>
-                <button class="btn-primary mr-1" onClick={()=> submit(task)}>Start</button>                
-                {/* <button class="btn-danger">Finish</button> */}
-            </div>
-        )
-    }
-    const BtnGroup4 = (task)=>{
-        return(
-            <div style={{width: "30%", padding: "5px", marginBottom: 0, display: "flex", justifyContent: "end"}}>
-                <button class="btn-primary mr-1" onClick={()=> submit(task, "quit")}>Quit</button>                
-                <button class="btn-danger" onClick={()=> submit(task, "finish")}>Finish</button>
-            </div>    
-        )
-    }
-                               
+   
+    const header = list !== null ? "Current Tasks" : favs !== null ? "Favorites" : "Rewards";
+    const linkText = list !== null ? "Favorites" : "Task List";
+    const link_to = list === null ? `/dashboard/tasks/${userName}`: "/dashboard/favorite-tasks/";
 
     return(
-        <div className="offset-3 col-6">
-            <div className="card m-auto" style={{padding: 2, backgroundColor: "rgb(79 104 126)", border: "1px solid rgb(126 117 117)", maxWidth: "350px", minHeight: "368px", boxShadow: "0 0 5px white"}}>
-                <div className="card" style={{border: "1px solid rgb(200 202 205 / 91%)", minHeight: "368px", backgroundColor: "#d6e8ffe8"}}>
-                    <ul style={{padding:0, marginBottom: 0}}>
-                        {(permission && match === null) ? <Adder addTask={addTask} current={null} /> : !permission ? <></> :
-                        <li style={{listStyleType: "none", margin: "0.1rem", borderRadius: "0.25rem", border: "1px solid #a9a9ab"}}>
-                            <div className="card taskCard" style={{backgroundColor: "white", height: "45px"}}></div>
-                        </li>
-                        }
-                        {list.map((val, index)=>{
-                            let task = val.task;
-                            const taskStyle = val.score === 1 ? {backgroundColor: "white", height: "45px"} : {backgroundColor: "white", height: "45px"}
-                            const btnSelection = permission && val.score < 2 ? 
-                                <BtnGroup1 task={task} val={val}/> : permission && val.score === 2 ? 
-                                <BtnGroup2 task={task}/> : val.score === 0 ? 
-                                <BtnGroup3 task={task}/> : val.score === 1 ? 
-                                <BtnGroup4 task={task}/> :
-                                <div style={{width: "30%", padding: "5px", marginBottom: 0, display: "flex", justifyContent: "end"}}>
-                                    <p style={{marginBottom: 0}}>Checking...</p>
-                                </div> 
-                                ;
-                            // <div style={{width: "30%", padding: "5px", marginBottom: 0, display: "flex", justifyContent: "end"}}>
-                            //     <Icon style={{color: "black"}} icon="ci:edit" onClick={()=>setMatch(task)} />
-                            //     <Icon style={{color: "black"}} icon="material-symbols:delete-forever" onClick={()=> submit(task)} /> 
-                            //     <Icon icon="ic:twotone-favorite" onClick={()=> favorite(val)} />
-                            // </div>
-                            // :
-                            // <div style={{width: "30%", padding: "5px", marginBottom: 0, display: "flex", justifyContent: "end"}}>
-                            //     <Icon style={{color: "red"}} icon="akar-icons:circle-x" />
-                            //     <Icon style={{color: "green"}} icon="fluent-mdl2:completed" onClick={()=> submit(task)}/> 
-                            // </div>
-
-                            if(task === match){
-                                return(
-                                    <Adder addTask={_addTask} current={val}/> 
-                                )
-                            } else{
-                                return(
-                                    <li style={{listStyleType: "none", margin: "0.1rem", borderRadius: "0.25rem", border: "1px solid #a9a9ab"}}>
-                                        <div className="card taskCard" style={taskStyle}>
-                                            <div className="d-flex" style={{height: "100%", alignItems: "center", padding: 1, color: "black", fontFamily: "serif"}}>
-                                                <p style={{width: "50%", padding: "5px", marginBottom: 0}}>{task}</p>
-                                                <div className="d-flex" style={{width: "15%", padding: "5px", alignItems: "center"}}>
-                                                    <p style={{marginBottom: 0}}>{val.value}</p>
-                                                    <Icon icon="emojione:star" />
-                                                </div>
-                                                { btnSelection }         
-                                            </div>
+        // <div className="offset-3 col-6"">
+            <div className="card m-auto borderDiv">
+                <div className="card" style={{border: "1px solid rgb(200 202 205 / 91%)", height: "100%", backgroundColor: "#d6e8ffe8"}}>
+                    {(list !== null && list.length < 1 && !permission) ? 
+                        <div className="m-auto">
+                            <h1 class="text-center">You're Awesome!</h1>
+                            <h6 class="text-center" style={{textDecoration: "underline"}}>You've completed all of your tasks</h6>
+                        </div> :
+                        (rewards !== null && rewards.length < 1 && !permission) ? 
+                        <div className="m-auto">
+                            <h6 class="text-center" style={{textDecoration: "underline"}}>No rewards listed!</h6>
+                        </div> :
+                        <ul style={{padding:0, marginBottom: 0}}>                        
+                            {permission &&
+                                <li style={{listStyleType: "none", margin: "0.1rem", borderRadius: "0.25rem", border: "1px solid #a9a9ab"}}>
+                                    <div className="card taskCard" style={{backgroundColor: "white", height: "45px"}}>
+                                        <div className="d-flex m-auto" style={{alignItems: "baseline", padding: 1, color: "black", fontFamily: "serif"}}>
+                                            <h4 class="mb-0 mr-2">{header}</h4>
+                                            {(if_Fav && rewards === null) && <Link className="mb-0 listLink" to={link_to}>{linkText}</Link>}
                                         </div>
-                                    </li>
-                                )
-
+                                    </div>
+                                </li>
                             }
-                                
-                            
-                        })}
-                    </ul>     
-                </div>
-                   
-            </div>
-           
-        </div>
+                            {/* if no permission or if favorites or if editing */}
+                            {/* rework if else below.  no need for second ADDER */}
+                            {(!permission || favs!== null || match !== null)? <></> 
+                            : permission && list !== null ? <Adder exit={setMatch} addTask={addTask} current={null} category={"tasks"} list={list}/> 
+                            : <Adder exit={setMatch} addTask={addTask} current={null} category="rewards" list={rewards} />}
+                            {   (favs === null && list === null) ? rewards.map((val, index)=>{
+                                    const reward = val.reward;
+                                    if(reward === match){
+                                        return(
+                                            <Adder exit={setMatch} addTask={_addTask} current={val} category={"rewards"} list={rewards}/> 
+                                        )
+                                    }
+                                    else{
+                                        // type, val, func1, func2, func3, func4}
+                                        return(
+                                            <ListItem 
+                                                permission={permission}
+                                                repost={repost}
+                                                type={"rewards"}
+                                                val={val}
+                                                func1={submit}
+                                                func2={setMatch}
+                                                func3={null}
+                                                func4={null}
+                                            />
+                                        )
+                                    }  
+                                }) :                            
+                                (list !== null && list.length > 0) ? list.map((val, index)=>{
+                                    let task = val.task;
+                                    console.log(task)
+                                    console.log(match)
+                                    const taskStyle = val.score === 1 ? {backgroundColor: "white", height: "45px"} : {backgroundColor: "white", height: "45px"}
+                                    if(task === match){
+                                        return(
+                                            <Adder exit={setMatch} addTask={_addTask} current={val} category={"tasks"} list={list}/> 
+                                        )
+                                    } else{
+                                        return(
+                                            <ListItem 
+                                                permission={permission}
+                                                repost={repost}
+                                                type={"tasks"}
+                                                val={val}
+                                                func1={submit}
+                                                func2={setMatch}
+                                                func3={_addFav}
+                                                func4={addTask}
+                                            />
+                                        )
+                                    }                            
+                                }):
+                                (list !== null && list.length < 1 && permission) ? <></> :
+                                favs.map((val, index)=>{
+                                    return(
+                                        <ListItem 
+                                            permission={permission}
+                                            repost={repost}
+                                            type={"favs"}
+                                            val={val}
+                                            func1={null}
+                                            func2={null}
+                                            func3={_addFav}
+                                            func4={addTask}
+                                        />
+                                    )
+                                })
+                            }
+                        </ul>   
+                    }       
+                </div>             
+            </div>       
+        // </div>
     )
 }
 

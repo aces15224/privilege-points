@@ -5,34 +5,7 @@ const db = require("../models");
 const bcrypt = require('bcryptjs');
 
 
-// Router.route("/tasks")
-// .get((req, res)=>{
-//     db.Tasks.findOne({
-//         where:{
-//             familyId : 6666
-//         }
-//     })
-//     .then(function(data){
-//         console.log(data)
-//         res.json(data)
 
-//         // if user exists compare typed passsword w/ encrypted password stored in database
-//         // if(data){
-//         //     bcrypt.compare(password, data.password, (err, password)=>{
-//         //         if (err) {console.log(err)}
-//         //         if (password) {
-//         //             res.json(password) 
-//         //         } else {
-//         //            res.json(password)  
-//         //         }
-//         //     });
-//         // }
-//         // else{
-//         //     return false;
-//         // }   
-//     }) 
-//     .catch(err => console.log(err));  
-// })
 Router.route("/dashboard/:userName")
 .get(async (req,res)=>{
     //Get user information using their userName
@@ -54,54 +27,216 @@ Router.route("/dashboard/:userName")
         console.error('Error:', error);
     });
 })
-Router.route("/users1")
-.post((req, res) =>{
-    // Router.post("/users", (req, res) =>{
-    const user = {
-        userName: req.body.userName,
-        familyId: req.body.familyId,
-        accessId: req.body.accessId,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        password: req.body.password,
-    }
-    
-        //creating a user.  A new password must be encypted...
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(user.password, salt, (err, hash) => {
-                if (err) throw err;
-                user.password = hash;
-                //and the user will be added to the database
-                db.User.create(user)
-                .then(function(data){
-                    console.log(data)
-                }) 
-                .catch(err => console.log(err));    
-            });
-        });
-       
-});
-Router.route("/users")
-.get((req, res)=>{
-    db.User.findAll({include:[db.Tasks, db.Rewards]}).then(function(establishment) {
-        // console.log(establishment)
-        res.json(establishment);
+
+Router.route('/password')
+.post((req, res)=>{
+    const password = req.body.password;
+    const userName = req.body.userName;
+    console.log(userName)
+    //find user using business name
+    db.User.findOne({
+        where:{
+            userName: userName
+        }
     })
+    .then(function(data){
+    // if user exists compare typed passsword w/ encrypted password stored in database
+        if(data){
+            bcrypt.compare(password, data.password, (err, password)=>{
+                if (err) {console.log(err)}
+                if (password) {
+                    res.json(password) 
+                } else {
+                    res.json(password)  
+                }
+            });
+        }
+        else{
+            return false;
+        }   
+    }) 
+    .catch(err => console.log(err));   
 })
+.put((req, res)=>{
+    let password = req.body.password;
+    const userName = req.body.userName;
+    //encrypt password and update the database w/ new password
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+            if (err) throw err;
+            console.log(hash)
+            password = hash;
+            db.User.update({
+                password: password
+            },{
+                where:{
+                    userName: userName
+                }
+            })
+            .then(function(data){
+                res.json(data)
+            }) 
+            .catch(err => console.log(err));  
+        });
+    });  
+})
+
+
+
+
+// Router.route("/users1")
+// .post((req, res) =>{
+//     // Router.post("/users", (req, res) =>{
+//     const user = {
+//         userName: req.body.userName,
+//         familyId: req.body.familyId,
+//         accessId: req.body.accessId,
+//         firstName: req.body.firstName,
+//         lastName: req.body.lastName,
+//         password: req.body.password,
+//     }
+    
+//         //creating a user.  A new password must be encypted...
+//         bcrypt.genSalt(10, (err, salt) => {
+//             bcrypt.hash(user.password, salt, (err, hash) => {
+//                 if (err) throw err;
+//                 user.password = hash;
+//                 //and the user will be added to the database
+//                 db.User.create(user)
+//                 .then(function(data){
+//                     console.log(data)
+//                 }) 
+//                 .catch(err => console.log(err));    
+//             });
+//         });
+       
+// });
+// .get(async (req, res)=>{
+//     await db.User.findAll({
+//         where:{
+//             accessId: 
+//         },
+//         include:[db.Tasks, db.Rewards]      
+//     })
+//     .then(function(results) {
+//         // console.log("RES")
+//         res.json(results);
+//     })
+//     .catch((error) => {
+//         console.error('Error:', error);
+//     });
+//     db.User.findAll({include:[db.Tasks, db.Rewards]}).then(function(establishment) {
+//         // console.log(establishment)
+//         res.json(establishment);
+//     })
+// })
+Router.route("/family")
+.post(async (req, res)=>{
+    const userCheck = req.body.userCheck;
+    if(userCheck){
+        const id = req.body.userName;
+        await db.User.findAll({
+            where:{
+                userName: id
+            },
+        })
+        .then(function(results) {
+            // console.log("RES")
+            res.json(results);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });  
+
+    } else{
+        const id = req.body.familyId;
+        await db.User.findAll({
+            where:{
+                accessId: id
+            },
+        })
+        .then(function(results) {
+            // console.log("RES")
+            res.json(results);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });    
+    }
+})
+.put(async (req, res)=>{
+    const {userName, firstName, lastName, email, familyId } = req.body;
+    await db.User.update({
+        userName, 
+        firstName, 
+        lastName, 
+        email
+    },{
+        where:{
+            familyId: familyId
+        }
+    })
+    .then(function(data){
+        console.log(data)
+        res.json(data)
+    }) 
+    .catch(err => console.log(err));
+})
+.delete(async (req, res)=>{
+    //remove non-letters from name
+    const id = req.body.familyId;
+    db.User.destroy({
+        where:{
+            familyId : id
+        }        
+    })
+    .then(function(results) {
+        console.log("Prices Deleted")
+ 
+        // const {name} = req.params;
+        // //remove non-letters from name
+        // const establishmentName = name.split("%20").join(" ");
+        // //after deleting price, the business table must be updated to reflect changes. ("Delivery Offered: False")
+        // db.Establishment.update({
+        //     delivery: false
+        // },{
+        //     where:{
+        //         businessName : establishmentName
+        //     }
+        // })
+        // .then(function(data){
+        //     console.log("Service Removed")
+        //     res.json(data)
+        // })    
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+
+Router.route("/users")
 .post((req, res) =>{
     // Router.post("/users", (req, res) =>{
-    let email = req.body.email;
+    const email = req.body.email;
+    const primary = req.body.primary;
+    console.log(req.body.familyId)
+    console.log(primary)
     const id = `${req.body.userName}+${Date.now()}`
     const body = Object.keys(req.body);
     const user = {
         email,
-        permission: true,
+        permission: primary,
         userName: req.body.userName,
         familyId: id,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         password: req.body.password,
     }
+    if(primary === false){
+        user.accessId = req.body.accessId;
+        // user.permission = false;
+    }    
+    console.log(user)
     //If body.includes(firstName) the user is submitting user info to database and...
     if(body.includes('firstName')){
         //creating a user.  A new password must be encypted...
@@ -112,13 +247,18 @@ Router.route("/users")
                 //and the user will be added to the database
                 db.User.create(user)
                 .then(function(data){
-                    db.Tasks.create({UserFamilyId: id, familyId: id})
-                    .then((data)=>{
-                        db.Rewards.create({UserFamilyId: id, familyId: id})
+                    if(primary === true){
+                        db.Tasks.create({UserFamilyId: id, familyId: id})
                         .then((data)=>{
-                            res.json(data)
-                        }).catch(err => console.log(err));
-                    }).catch(err => console.log(err));
+                            db.Rewards.create({UserFamilyId: id, familyId: id})
+                            .then((data)=>{
+                                res.json(data)
+                            }).catch(err => console.log(err));
+                        }).catch(err => console.log(err));    
+                    } else{
+                        console.log(data)
+                        res.json(data)
+                    }  
                 }) 
                 .catch(err => console.log(err));    
             });
@@ -141,28 +281,40 @@ Router.route("/users")
     }    
 })
 .put((req, res)=>{
-    const {ppts, userName} = req.body;
-    db.User.update({
-        pPts: ppts 
-    },{
-        where:{
-            userName: userName
-        }
-    })
-    .then(function(data){
-        res.json(data)
-    }) 
-    .catch(err => console.log(err)); 
-
+    const {ppts, userName, firstName, lastName, email, prevMail } = req.body;
+    if(ppts){
+        db.User.update({
+            pPts: ppts
+        },{
+            where:{
+                userName: userName
+            }
+        })
+        .then(function(data){
+            res.json(data)
+        }) 
+        .catch(err => console.log(err));
+    } else{
+        db.User.update({
+            userName, 
+            firstName, 
+            lastName, 
+            email
+        },{
+            where:{
+                email: prevMail
+            }
+        })
+        .then(function(data){
+            res.json(data)
+        }) 
+        .catch(err => console.log(err));
+    }
 })
 
 Router.route("/tasks/:id")
 .get((req, res)=>{
     const {id} = req.params;
-    console.log("id")
-        console.log(id)
-
-
     db.User.findOne({
         where:{ familyId: id},
         include:[db.Tasks, db.Rewards]})
@@ -187,7 +339,10 @@ Router.route("/tasks/:id")
         }) 
         .catch(err => console.log(err)); 
     } else{
-        db.Tasks.update({favorites},{
+        db.Tasks.update({
+            favorites, 
+            taskList
+        },{
             where:{
                 familyId: id
             }
@@ -201,6 +356,41 @@ Router.route("/tasks/:id")
     
 
 })
+
+
+Router.route("/rewards/:id")
+.get((req, res)=>{
+    const {id} = req.params;
+    console.log("id")
+        console.log(id)
+
+
+    db.User.findOne({
+        where:{ familyId: id},
+        include:[db.Rewards]})
+    .then(function(establishment) {
+        res.json(establishment);
+    })
+    .catch(err => console.log(err)); 
+})
+.put((req, res)=>{
+    const {id} = req.params;
+    const {RewardList} = req.body;
+    db.Rewards.update({RewardList},{
+        where:{
+            familyId: id
+        }   
+    })
+    .then(function(data){
+        console.log(data)
+        res.json(data)
+    }) 
+    .catch(err => console.log(err));  
+
+})
+// .post((req, res)=>{
+
+// })
 
 // .post((req, res) =>{
 //     // Router.post("/users", (req, res) =>{

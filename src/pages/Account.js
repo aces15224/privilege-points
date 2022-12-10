@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {useNavigate} from "react-router-dom";
 // import Footer from "../components/Footer";
-import LoadingSpinner from "./Loading";
-import UserForm from "./UserForm";
-import UserCard from "./UserCard";
+import LoadingSpinner from "../dashboard/Loading";
+import UserForm from "../components/UserForm";
+import UserCard from "../components/UserCard";
 // import EditUserForm from "./EditForm";
 // import {AuthContext} from '../App';
 
@@ -115,6 +115,5 @@ const EditFamilyInfo = ({family_Id, pointHandler, page})=>{
     } 
     
 }
-{/* <UserForm family_Id={family_Id}/> */}
 
 export default EditFamilyInfo;
