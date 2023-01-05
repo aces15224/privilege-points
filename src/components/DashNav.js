@@ -4,10 +4,10 @@ import {AuthContext} from '../App';
 // import Logo from "../images/clearLogo.png";
 
 
-const DashNav =({paginate, permission})=>{
+const DashNav =({permission, familyID, userName})=>{
     //Login is a contextual function used to log out the user
     
-    const {login, loginFunction, userName} = useContext(AuthContext);
+    const {login, loginFunction} = useContext(AuthContext);
     
     useEffect(()=>{
         window.addEventListener("resize", resizeHandler);
@@ -61,7 +61,7 @@ const DashNav =({paginate, permission})=>{
                                         <Link className="nav-link" to={`/dashboard/account-info/${userName}`}>Account Info</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/family">Family</Link>
+                                        <Link className="nav-link" to={`/dashboard/family/${userName}`}>Family</Link>
                                     </li>
                                 </>
                             }

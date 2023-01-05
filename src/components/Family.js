@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import DashNavBar from "../components/DashNav";
-import EditUserForm from "../components/EditForm";
-import Footer from "../components/Footer";
+// import DashNavBar from "./DashNav";
+import EditUserForm from "./EditForm";
+// import Footer from ".Footer";
 
 import { Icon } from '@iconify/react';
 
@@ -10,15 +10,14 @@ import {useNavigate} from "react-router-dom";
 // import {AuthContext} from "../App";
 
 // import Footer from "../components/Footer";
-import LoadingSpinner from "../components/Loading";
-import UserForm from "../components/UserForm";
-import UserCard from "../components/UserCard";
+import LoadingSpinner from "./Loading";
+import UserForm from "./UserForm";
+import UserCard from "./UserCard";
 // import EditUserForm from "./EditForm";
 import {AuthContext} from '../App';
 
-const EditFamilyInfo = ({pointHandler, page})=>{
-    const {familyID} = useContext(AuthContext);
-    console.log(familyID)
+const EditFamilyInfo = ({familyID})=>{
+    // const {familyID} = useContext(AuthContext);
     const [famList, setFamList] = useState([]);
     const [selected, setSelected] = useState(null)
     const [addForm, setAddForm] = useState(false);
@@ -65,7 +64,7 @@ const EditFamilyInfo = ({pointHandler, page})=>{
 
         if(selected === null){
             return famList.map((val, index)=>{
-                return <UserCard key={index} info={val} pointHandler={pointHandler} deleter={deleter} setSelected={setSelected}/>
+                return <UserCard key={index} info={val} deleter={deleter} setSelected={setSelected}/>
             })
         } else{
             return <EditUserForm user={selected} cancel={setSelected}/>
@@ -109,7 +108,7 @@ const EditFamilyInfo = ({pointHandler, page})=>{
         if(famList.length <= 0 || addForm === true){
             return(
                 <>
-                    <DashNavBar paginate={paginate} permission={true} page={page}/>
+                    {/* <DashNavBar paginate={paginate} permission={true} page={page}/> */}
                     <div className="container-fluid dashboard-container">
                         <div className="row pt-4 pb-4" style={{minHeight: 500}}>
                             <div className="col-12 col-sm-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 " style={{color: "black", justifyContent: "center"}}>
@@ -117,17 +116,17 @@ const EditFamilyInfo = ({pointHandler, page})=>{
                                     <h2 className="mb-0 mr-1 updateIcon"><Icon icon="material-symbols:group-add-outline" /> </h2>
                                     <h1 className="mb-0 updateText">Add User</h1>  
                                 </div> 
-                                <UserForm familyId={familyID} addForm={()=>setAddForm(false)} page={page}/> 
+                                <UserForm familyId={familyID} addForm={()=>setAddForm(false)} /> 
                             </div>
                         </div>
                     </div>
-                    <Footer/> 
+                    {/* <Footer/>  */}
                 </>
             )
         } else{
             return(
                 <>
-                    <DashNavBar paginate={paginate} permission={true} page={"family"}/>
+                    {/* <DashNavBar paginate={paginate} permission={true} page={"family"}/> */}
                     <div className="container-fluid dashboard-container">
                         <div className="row pt-4 pb-4" style={{minHeight: 500}}>
                             <div className="col-12 col-sm-12 col-md-12 offset-lg-1 col-lg-10 " style={{color: "black", justifyContent: "center"}}>
@@ -145,7 +144,7 @@ const EditFamilyInfo = ({pointHandler, page})=>{
                             </div>
                         </div>
                     </div>
-                    <Footer/> 
+                    {/* <Footer/>  */}
                 </>
                 
 
@@ -154,9 +153,9 @@ const EditFamilyInfo = ({pointHandler, page})=>{
     } else{
         return(
             <>
-                <DashNavBar paginate={paginate} permission={true} page={page}/>
+                {/* <DashNavBar paginate={paginate} permission={true} page={page}/> */}
                 <LoadingSpinner message={"Loading..."}/>
-                <Footer/> 
+                {/* <Footer/>  */}
             </>
                     
         ) 

@@ -27,7 +27,7 @@ const ListContainer = ({list, favs, submit, addTask, favorite, permission, page,
    
     const header = list !== null ? "Current Tasks" : favs !== null ? "Favorites" : "Rewards";
     const linkText = list !== null ? "Favorites" : "Task List";
-    const link_to = list === null ? `/dashboard/tasks/${userName}`: "/dashboard/favorite-tasks/";
+    const link_to = list === null ? `/dashboard/tasks/${userName}`: `/dashboard/favorite-tasks/${userName}`;
 
     return(
         // <div className="offset-3 col-6"">
@@ -66,7 +66,7 @@ const ListContainer = ({list, favs, submit, addTask, favorite, permission, page,
                                         )
                                     }
                                     else{
-                                        // type, val, func1, func2, func3, func4}
+                                        // type, val, func1, func2, func3, func4
                                         return(
                                             <ListItem 
                                                 permission={permission}

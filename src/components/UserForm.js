@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import LoadingSpinner from "./Loading";
 
 
-const UserForm = ({familyId, addForm, page})=>{
+const UserForm = ({familyId, addForm})=>{
     const [loading, setLoading] = useState(false);
     // const {login, businessName} = useContext(AuthContext);    
     const [first, setFirst] = useState("");

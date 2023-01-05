@@ -17,7 +17,7 @@ const UserCard = ({info, deleter, setSelected})=>{
         console.log(_initial)
 
         if(points !== 0){
-            setPoints(points) ;
+            setPoints(points);
             setInitial(_initial);  
             setSaving(false);
 
@@ -98,7 +98,6 @@ const UserCard = ({info, deleter, setSelected})=>{
         }, 3000)
     }
     const _points = ()=>{
-
         return(
             <>  
                 <div className="d-flex mb-1" style={{justifyContent: "space-between"}}>

@@ -1,13 +1,19 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Icon } from '@iconify/react';
+import {AuthContext} from '../App';
+
 const ListItem = ({permission, repost, type, val, func1, func2, func3, func4})=>{
+    const {context_points} = useContext(AuthContext);
     
 
     useEffect(()=>{
+        console.log(context_points)
     },[])
 
     const [selectStyle, setSelectStyle] = useState("default");
     const [message, setMessage] = useState(null);
+    const title = type === "rewards" ? val.reward : val.task;
+
     const repostHandler = (item, dup)=>{
         // const dup = repost(item);
         console.log(dup)
@@ -21,6 +27,7 @@ const ListItem = ({permission, repost, type, val, func1, func2, func3, func4})=>
 
     const _linePlease = (item, action, category)=>{
         let dup;
+        let error = false;
         const cat = category === "reward" ? "reward" : null;
         if(action === "delete" || action === "remove" || action === "quit"){
             action !== "quit" ? setMessage("Removed") : setMessage("Marked Incomplete");
@@ -43,16 +50,34 @@ const ListItem = ({permission, repost, type, val, func1, func2, func3, func4})=>
         //     action === "complete" ? setMessage("Marked Complete!") : setMessage("Reposted");
         //     setSelectStyle("submit");
         } else{
-            setMessage("Points Used");
-            setSelectStyle("submit");
+            if(context_points <= 0){
+                error = true;
+                setSelectStyle("delete");
+                setMessage("You have Zero Points");
+            } else{
+                if(context_points < item.value){
+                    error = true;
+                    console.log("<")
+                    setSelectStyle("delete");
+                    setMessage("Not Enough Points");
+
+                } else{
+                    setMessage("Points Used");
+                    setSelectStyle("submit");  
+                }     
+            }
+                        
         }
-        setTimeout(()=>{          
-            action === "repost" ? repostHandler(item, dup) :
-            action === "delete" ? func1(item, "delete", cat)
-            : action === "buy" ? func1(item, action, cat)
-            : action === "remove" ? func3(item) 
-            : action === "quit" ? func1(item, "quit", null)
-            : func1(item, null, null);
+        setTimeout(()=>{   
+            if(!error){
+                action === "repost" ? repostHandler(item, dup) :
+                action === "delete" ? func1(item, "delete", cat)
+                : action === "buy" ? func1(item, action, cat)
+                : action === "remove" ? func3(item) 
+                : action === "quit" ? func1(item, "quit", null)
+                : func1(item, null, null);    
+            }       
+            error = false;
             setMessage(null);
             setSelectStyle("default") 
         }, 3000)
@@ -115,8 +140,8 @@ const ListItem = ({permission, repost, type, val, func1, func2, func3, func4})=>
     const BtnFavs = (val)=>{
         return(
             <>
-                <button class="btn-danger mr-1" style={{width: "50%", height: "100%"}} onClick={()=> _linePlease(val, "remove")}>Remove</button>                
-                <button class="btn-success" style={{width: "50%", height: "100%"}} onClick={()=> _linePlease(val, "repost")}>Repost</button>
+                <button class="btn-danger mr-1" style={{height: "100%"}} onClick={()=> _linePlease(val, "remove")}>Remove</button>                
+                <button class="btn-success" style={{height: "100%"}} onClick={()=> _linePlease(val, "repost")}>Repost</button>
             </>    
         )
     }
@@ -129,7 +154,6 @@ const ListItem = ({permission, repost, type, val, func1, func2, func3, func4})=>
 
     } 
     
-    const title = type === "rewards" ? val.reward : val.task;
     return(
         <li style={{listStyleType: "none", margin: "0.1rem", borderRadius: "0.25rem", border: "1px solid #a9a9ab"}}>
             <div className="card taskCard" 
@@ -138,15 +162,15 @@ const ListItem = ({permission, repost, type, val, func1, func2, func3, func4})=>
                     selectStyle === "delete" ? {backgroundColor: "red", height: "45px"} :
                     {backgroundColor: "white", height: "45px"}
                 }>
-                    <div className="d-flex" style={{height: "100%", alignItems: "center", padding: 1, color: "black", fontFamily: "serif"}}>
+                    <div className="d-flex" style={{height: "100%", alignItems: "center", padding: 1, color: "black"}}>
                     {selectStyle === "default" ?
                         <>
-                            <p style={{width: "50%", padding: "5px", marginBottom: 0}}>{ title }</p>
-                            <div className="d-flex" style={{width: "15%", padding: "5px", alignItems: "center"}}>
-                                <p style={{marginBottom: 0}}>{val.value}</p>
-                                <Icon icon="emojione:star" />
+                            <p className="orbFont" style={{width: "50%", padding: "5px", marginBottom: 0}}>{ title }</p>
+                            <div className="d-flex" style={{width: "12%", alignItems: "center"}}>
+                                <p className="orbFont" style={{marginBottom: 0}}>{val.value}</p>
+                                <Icon icon="ic:twotone-star"  style={{color:"rgb(255, 206, 49)", fontSize: "1.1em"}}/>
                             </div>
-                            <div style={{height: "100%", width: "35%", alignItems: "center", marginRight: 2, marginBottom: 0, display: "flex", justifyContent: "end"}}>
+                            <div style={{height: "100%", width: "40%", alignItems: "center", marginRight: 2, marginBottom: 0, display: "flex", justifyContent: "end"}}>
                                 {type === "tasks" ? btnSelection(val) : type === "rewards" ? BtnReward(val) : BtnFavs(val)}    
                             </div>
                         </>:

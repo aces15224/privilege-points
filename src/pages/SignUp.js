@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {useNavigate} from "react-router-dom";
 import Navbar from "../components/NavBar";
-// import Footer from "../components/Footer";
+import Footer from "../components/Footer";
 import Loading from "../components/Loading";
+import { Icon } from '@iconify/react';
+
 // import {AuthContext} from '../App';
 
 
@@ -185,13 +187,17 @@ const SignUp = ()=>{
         return(
             <>
                 <Navbar/>
-                <div className="container-fluid">
-                    <div className="row">
+                <div className="container-fluid" style={{backgroundColor:"#f5f5f5"}}>
+                    <div className="row login-register-page" style={{ height: "100%"}}>
                         <div className="col-12 offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
-                            <div className="card card-body login-register-card">
-                                <h1 className="text-center mb-3">
+                            <div className="card register-card mt-5 mb-5">
+                                <div class="d-flex mb-3" style={{justifyContent:"center", alignItems:"center"}}>
+                                    <h3><Icon icon="mdi:register" /></h3>
+                                    <h1>Register</h1>    
+                                </div>
+                                {/* <h1 className="text-center mb-3">
                                     <i className="fas fa-user-plus"></i>Register
-                                </h1>
+                                </h1> */}
                                 <form>
                                     <div className="form-row">
                                         <div className="form-group col-md-6">
@@ -280,11 +286,12 @@ const SignUp = ()=>{
                                         Next
                                     </button>
                                 </form>
-                                    <p className="lead" style={{fontWeight:"500"}}>Have An Account? <a href="/login">Login</a></p>
+                                    <p className="lead" style={{fontWeight:"500"}}>Have An Account? <a href="/login" style={{color:"blue"}}>Login</a></p>
                             </div>
                         </div>
                     </div>    
                 </div>
+                <Footer/>
             </>
         )    
     }

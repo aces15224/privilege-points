@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Icon } from '@iconify/react';
-// import {useNavigate, Link} from "react-router-dom";
 import { Route, Routes, useNavigate} from "react-router-dom";
 
 import DashNavBar from "../components/DashNav";
@@ -8,7 +7,7 @@ import DashNavBar from "../components/DashNav";
 // import moment from 'moment';
 import {AuthContext} from "../App";
 
-
+import Family from "../components/Family";
 import LoadingSpinner from "../components/Loading";
 import ListContainer from "../components/ListContainer";
 import EditAccountForm from "../components/EditAccountForm";
@@ -21,8 +20,9 @@ import Footer from "../components/Footer";
 
 const Dashboard = ({setContext})=>{
     const history = useNavigate();
-    const contextUserName = useContext(AuthContext)["userName"]
+    const contextUserName = useContext(AuthContext)["userName"];
     const {updatePoints} = useContext(AuthContext);
+    console.log("user name : " + contextUserName)
 
     const [page, setPage] = useState("tasks"); //account, tasks, password, addUsers, rewards,
     // const [edit, setEdit] = useState(false);
@@ -48,21 +48,21 @@ const Dashboard = ({setContext})=>{
     // const {nameFunction} = useContext(AuthContext);
 
     useEffect(()=>{
-        //Check if user is allowed to access dashboard
-        //If not redirect to the login page.  Otherwise, Fetch business Data
-        // fetch("/api/checkAuthentication")
-        // .then((response)=>response.json())
-        // .then(data => {
-        //     if(data.authenticated !== true){
-        //         history.push("/login")
-        //     } else{
-        //         updateCall();   
-        //     }
-        // })
+        // Check if user is allowed to access dashboard
+        // If not redirect to the login page.  Otherwise, user Data
+        fetch("/api/checkAuthentication")
+        .then((response)=>response.json())
+        .then(data => {
+            if(data.authenticated !== true){
+                history("/login")
+            } else{
+                const page_user = updateCall(); 
+                userInfo(page_user.category, page_user.userName);
+            }
+        })
         
-        console.log("useeffect")
-        const page_user = updateCall(); 
-        userInfo(page_user.category, page_user.userName);
+        // const page_user = updateCall(); 
+        // userInfo(page_user.category, page_user.userName);
 
 
 
@@ -185,6 +185,8 @@ const Dashboard = ({setContext})=>{
                         } 
                     }
                     fetchTasks(familyID, newList, null, "reward");
+                    newList.sort((a, b) => a.value - b.value);
+
                     return newList;
                 }))   
             } else{
@@ -201,6 +203,7 @@ const Dashboard = ({setContext})=>{
                             }
                         }
                         newList.push(task);
+                        newList.sort((a, b) => a.value - b.value);
                         fetchTasks(familyID, newList, null, "reward");
                         return newList;
                     }))      
@@ -277,6 +280,7 @@ const Dashboard = ({setContext})=>{
                         newList.push(val)
                     }            
                 })
+                newList.sort((a, b) => a.value - b.value);
                 setListReward(newList);
                 fetchTasks(familyID, newList, null, "reward");
             }
@@ -322,6 +326,7 @@ const Dashboard = ({setContext})=>{
                 total += pPts;
             }
             updatePoints(total, memberName)
+            setPoints(total);
         })
         .catch((err)=>{
             console.log(err)
@@ -380,6 +385,7 @@ const Dashboard = ({setContext})=>{
             const { Task, Reward } = data;
             let taskList = Task.taskList !== undefined ? JSON.parse(Task.taskList) : [];
             let rewardList = Reward.RewardList !== undefined ? JSON.parse(Reward.RewardList) : [];
+            rewardList.sort((a, b) => a.value - b.value);
             setListTask(taskList);
             setListReward(rewardList); 
             setPoints(obj.pPts);
@@ -390,7 +396,7 @@ const Dashboard = ({setContext})=>{
             setFirst(obj.firstName);
             setLast(obj.lastName); 
             setLoading(false);
-            setContext(obj.accessId, obj.familyID, obj._userName, obj.permission);
+            setContext(obj.accessId, obj.familyID, obj._userName, obj.pPts, obj.permission);
         })
         .catch(error => console.log(error));    
     }
@@ -433,6 +439,7 @@ const Dashboard = ({setContext})=>{
             if(primary){
                 taskList = (Task.taskList === undefined || Task.taskList === null) ? [] : JSON.parse(Task.taskList);   
                 rewardList = (Reward.RewardList === undefined || Reward.RewardList === null) ? [] : JSON.parse(Reward.RewardList);
+                rewardList.sort((a, b) => a.value - b.value);
                 const taskFavs = JSON.parse(Task.favorites);
                 // const rewardFavs = Reward.RewardList;
                 const acctList = JSON.parse(secondaryAccts); 
@@ -453,7 +460,8 @@ const Dashboard = ({setContext})=>{
                 setLoading(false);
                 if(cat === "tasks"){
                     console.log(cat)
-                    setContext(accessId, familyId, _userName, points, permission)
+                    console.log(pPts)
+                    setContext(accessId, familyId, _userName, pPts, permission)
                 }
             } else{
                 const obj = {};
@@ -501,8 +509,8 @@ const Dashboard = ({setContext})=>{
                         />
                         <p className="iconText text-center">
                             {(currentPage === "tasks" && permission) ? "Start by Adding a task" : (currentPage === "tasks" && !permission) 
-                            ? "Click to Start a task" : (currentPage === "rewards" && !permission) ? <>You have: <span className="spanStyle">{points}</span> stars</> 
-                            : currentPage === "favorite-tasks" ? "Save Common Tasks Here" : "Get Stars by finishing tasks"}
+                            ? "Click to Start a task" : (currentPage === "rewards" && !permission) ? <>You have: <span className="spanStyle">{points}</span> Privilege Points</> 
+                            : currentPage === "favorite-tasks" ? "Save Common Tasks Here" : "Get Points for finishing tasks"}
                         </p>
                     </div>
                     <div className="listCard">
@@ -511,8 +519,8 @@ const Dashboard = ({setContext})=>{
                             style={{color:"#16bf16"}}
                         />
                         <p className="iconText text-center">
-                            {(currentPage === "tasks" && permission) ? "Next, add a reward" : (currentPage === "tasks" && !permission) ? "Get Stars when you're done" :
-                            (currentPage === "rewards" && permission) ? "Buy Rewards with Stars" : currentPage === "favorite-tasks" ? "Easily Repost to Task List": "Get more by completing tasks"}
+                            {(currentPage === "tasks" && permission) ? "Next, add a reward" : (currentPage === "tasks" && !permission) ? "Get Privilege Points when you're done" :
+                            (currentPage === "rewards" && permission) ? "Buy Rewards with Points" : currentPage === "favorite-tasks" ? "Easily Repost to Task List": "Get more by completing tasks"}
                         </p>
                     </div>
                     <div className="listCard">
@@ -591,43 +599,35 @@ const Dashboard = ({setContext})=>{
     }
 
     if(!loading){
-            return(
-                <>
-                    <DashNavBar paginate={paginate} permission={permission} page={page}/>
-                    <div className="container-fluid dashboard-container">
-                        <div className="row pt-4 pb-4" style={{minHeight: 500}}>
-                            <Routes>
-                                <Route path="/tasks/*" element={<ListDisplay cat={"/tasks/*"}/>}/>   
-                                <Route path="/favorite-tasks/*" element={<ListDisplay cat={"/favorite-tasks/*"}/>}/>   
-                                <Route path="/rewards/*" element={<ListDisplay cat={"/rewards/*"}/>}/>
-                                <Route path="/account-info/*" element={
-                                    <EditAccountForm 
-                                        firstName={first} 
-                                        lastName={last} 
-                                        email={eMail} 
-                                        _userName={userName}
-                                        // businessName={businessName}
-                                        // update={paginate}
-                                    />
-                                }/>   
-                                <Route path="/password/*"element={<EditPasswordForm userName={userName}/>}/>    
-                            </Routes>        
-                        </div> 
-                    </div>
-                    <Footer permission={permission}/>
-
-                     
-                </>
-                
-
-                
-            )     
-      
-
+        return(
+            <>
+                <DashNavBar permission={permission} userName={userName} familyID={familyID}/>
+                <div className="container-fluid dashboard-container">
+                    <div className="row pt-4 pb-4" style={{minHeight: 500}}>
+                        <Routes>
+                            <Route path="/tasks/*" element={<ListDisplay cat={"/tasks/*"}/>}/> 
+                            <Route path="/family/*"element={<Family familyID={familyID}/>}/>    
+                            <Route path="/favorite-tasks/*" element={<ListDisplay cat={"/favorite-tasks/*"}/>}/>   
+                            <Route path="/rewards/*" element={<ListDisplay cat={"/rewards/*"}/>}/>
+                            <Route path="/account-info/*" element={
+                                <EditAccountForm 
+                                    firstName={first} 
+                                    lastName={last} 
+                                    email={eMail} 
+                                    _userName={userName}
+                                />
+                            }/>   
+                            <Route path="/password/*"element={<EditPasswordForm userName={userName}/>}/>    
+                        </Routes>        
+                    </div> 
+                </div>
+                <Footer permission={permission}/>   
+            </>                
+        )     
     } else{
         return (
             <>
-                <DashNavBar paginate={paginate} permission={permission} page={page}/>
+                <DashNavBar permission={permission}/>
                 <div className="container-fluid dashboard-container" style={{minHeight: 500}}>
                     <LoadingSpinner message={"Loading..."}/> 
                 </div>

@@ -1,8 +1,82 @@
 const express = require("express");
 const Router = express.Router();
 const db = require("../models");
+
 //Bcyrpt library used for encrypting passwords
 const bcrypt = require('bcryptjs');
+
+//Passport library and configuration (used for Authentication)
+const passport = require('passport');
+const initializePassport = require('../config/passport');
+
+//Intialize passport.  Find user's username.
+initializePassport(passport);
+  
+  //CheckAuth checks if there is user and sets user to the user's businessName
+  //This will be called when the user visits pages that require authentication
+Router.get("/api/checkAuthentication", (req, res) => {
+    const authenticated= typeof req.user !== 'undefined';
+    if(authenticated){
+        console.log("user =>")
+        const user = req.user.userName;
+        console.log(user)
+
+        res.json({authenticated, user})    
+    } else{
+        res.json({authenticated})
+    }
+});
+
+//Log user out and destroy session
+Router.get("/api/logout", (req, res)=>{
+    req.session.destroy(function (err) {
+        //Redirect to login page after logging out
+        res.redirect('/login');
+    });
+});
+
+// Check Password for Login Authentication
+Router.post('/api/login', async (req, res, next) => {
+    let userName = req.body.username;
+    //Find user with userName provided in req.body...
+    console.log("POST #1")
+    const user = db.User.findOne({where:{userName : userName}});
+    await user
+    .then(data => {
+        console.log("returned user #2")
+        //call passport authentication and...
+        passport.authenticate('local', function(err, user, info) {
+            console.log("user #3")
+
+            console.log(user)
+            if (err) { return next(err); }
+            if (!user) { 
+                //if no user, redirect to the login page
+                console.log("fail")
+                return res.redirect('/login'); 
+            }
+            //otherwise log the user in and redirect them to their dashboard
+            req.logIn(user, function(err) {
+                console.log("success")
+                if (err) { 
+                  console.log("err")
+                  return next(err); 
+                }
+                console.log("redirect")
+              return res.redirect(`/dashboard/tasks/${data.dataValues.userName}`);
+            });
+        })(req, res, next)
+    })
+    .catch(err => console.log(err));    
+});
+
+
+
+
+
+
+
+///passport^^^^
 
 
 
