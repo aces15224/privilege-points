@@ -3,10 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "main": "server.js",
-
   "dependencies": {
     "@iconify-icons/mdi": "^1.2.32",
-    "@iconify/react": "^4.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -50,6 +48,6 @@
     ]
   },
   "devDependencies": {
-    "@iconify/react": "^4.0.0"
+    "@iconify/react": "^4.0.1"
   }
 }
