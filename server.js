@@ -33,16 +33,16 @@ app.use(express.json());
 app.use(apiRoutes);
 
 // Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('/build'));
-}
+// if (process.env.NODE_ENV === 'production') {
+//     app.use(express.static('client/build'));
+// }
   
   
-if (process.env.NODE_ENV === 'production') {
-    app.get('*', (_, res) => {
-        res.sendFile(path.join(__dirname, '/build/index.html'));
-    });
-}
+// if (process.env.NODE_ENV === 'production') {
+//     app.get('*', (_, res) => {
+//         res.sendFile(path.join(__dirname, 'client/build/index.html'));
+//     });
+// }
   
 db.sequelize.sync().then(function() {
     app.listen(PORT, function() {
