@@ -24,6 +24,7 @@ function App() {
     fetch("/api/checkAuthentication")
         .then((response)=>response.json())
         .then(data => {
+          console.log(data)
             if(data.authenticated === true){
               setLogin(true);
               setUserName(data.user)
