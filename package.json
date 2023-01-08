@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "main": "server.js",
+  "proxy": "http://localhost:8080",
+
   "dependencies": {
     "@iconify-icons/mdi": "^1.2.32",
     "@iconify/react": "^4.0.1",
@@ -26,7 +28,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts build",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
