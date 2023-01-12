@@ -30,8 +30,8 @@ if (process.env.JAWSDB_URL) {
   connection = mysql.createConnection(process.env.JAWSDB_URL);
   
 } else{
-  var sequelize = new Sequelize("privilegePoints_db", "root", "2Thbrush!", {
-    host: "localhost",
+  var sequelize = new Sequelize("privilegepoints-db", "admin", "2Thbrush!", {
+    host: "privilegepoints-db.cgm3mrs9f9p9.us-east-2.rds.amazonaws.com",
     port: 3306,
     dialect: "mysql",
     pool: {
