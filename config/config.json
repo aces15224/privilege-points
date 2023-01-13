@@ -1,9 +1,9 @@
 {
     "development": {
-      "username": "root",
+      "username": "admin",
       "password": "2Thbrush!",
-      "database": "privilegePoints_db",
-      "host": "localhost",
+      "database": "privilegepoints-db",
+      "host": "privilegepoints-db.cgm3mrs9f9p9.us-east-2.rds.amazonaws.com",
       "dialect": "mysql"
     },
     "test": {
@@ -13,9 +13,5 @@
       "host": "localhost",
       "dialect": "mysql",
       "logging": false
-    },
-    "production": {
-      "use_env_variable": "JAWSDB_URL",
-      "dialect": "mysql"
     }
   }

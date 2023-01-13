@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-// var mysql = require('mysql');
+// const { Sequelize } = require('sequelize');
+var mysql = require('mysql');
 
 
 // if (process.env.JAWSDB_URL) {
@@ -26,30 +26,36 @@ const { Sequelize } = require('sequelize');
 //   console.log("connected as id " + connection.threadId);
 // });
 
-if (process.env.JAWSDB_URL) {
-  connection = mysql.createConnection(process.env.JAWSDB_URL);
+var connection = mysql.createConnection({
+  host: "privilegepoints-db.cgm3mrs9f9p9.us-east-2.rds.amazonaws.com",
+  user: "admin",
+  password: "2Thbrush!",
+  port: "3306"
+})
+// if (process.env.JAWSDB_URL) {
+//   connection = mysql.createConnection(process.env.JAWSDB_URL);
   
-} else{
-  var sequelize = new Sequelize("privilegePoints_db", "root", "2Thbrush!", {
-    host: "localhost",
-    port: 3306,
-    dialect: "mysql",
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
-    }
-  });
+// } else{
+//   var sequelize = new Sequelize("privilegePoints_db", "root", "2Thbrush!", {
+//     host: "localhost",
+//     port: 3306,
+//     dialect: "mysql",
+//     pool: {
+//       max: 5,
+//       min: 0,
+//       idle: 10000
+//     }
+//   });
 
-  try {
-    await connection.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+//   try {
+//     await connection.authenticate();
+//     console.log('Connection has been established successfully.');
+//   } catch (error) {
+//     console.error('Unable to connect to the database:', error);
+//   }
 
 
-}
+// }
 
 connection.connect(function (err) {
   if (err) {
@@ -63,4 +69,5 @@ connection.connect(function (err) {
 connection.end();
 
   
-module.exports = sequelize;
+// module.exports = sequelize;
+module.exports = connection;
