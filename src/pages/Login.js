@@ -7,8 +7,6 @@ import Footer from "../components/Footer";
 const LoginPage = ()=>{
     const inputStyle = {border: "1px solid #616263"}
     // const {login, businessName, loginFunction} = useContext(AuthContext);
-    console.log("LOG")
-
     return(
         <>
             <Navbar/>

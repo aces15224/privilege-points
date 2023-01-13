@@ -27,9 +27,9 @@ var mysql = require('mysql');
 // });
 
 var connection = mysql.createConnection({
-  host: "privilegepoints-db.cgm3mrs9f9p9.us-east-2.rds.amazonaws.com",
-  user: "admin",
-  password: "2Thbrush!",
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
   port: "3306"
 })
 // if (process.env.JAWSDB_URL) {
