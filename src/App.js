@@ -24,7 +24,10 @@ function App() {
     console.log("YEEHAW")
     const fetchData = async () => {
       const data = await fetch("/api/checkAuthentication")
-      .then((response)=>response.json())
+      .then((response)=>{
+        console.log("response :" + response)
+        response.json()
+      })
       .then(data => {
         console.log(data)
           if(data.authenticated === true){
@@ -82,11 +85,7 @@ function App() {
     .catch((err)=>{
         console.log(err)
     }) 
-  }
-
-
- console.log(familyID)
-  
+  }  
   return (
     <Router>
       {/* Context provider surrounds all pages because it is used in the navbar (displayed on all pages) */}
