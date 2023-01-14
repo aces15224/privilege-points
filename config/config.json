@@ -13,5 +13,12 @@
       "host": "localhost",
       "dialect": "mysql",
       "logging": false
+    },
+    "production": {
+      "username": "admin",
+      "password": "2Thbrush!",
+      "database": "privilegepoints-db",
+      "host": "privilegepoints-db.cgm3mrs9f9p9.us-east-2.rds.amazonaws.com",
+      "dialect": "mysql"
     }
   }
