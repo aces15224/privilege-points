@@ -29,15 +29,15 @@ var mysql = require('mysql');
 // });
 
 // var connection = mysql.createConnection({
-//   host: process.env.MYSQL_HOST,
-//   user: process.env.MYSQL_USER,
-//   password: process.env.MYSQL_PASSWORD,
+//   host: process.env.REACT_APP_HOST,
+//   user: process.env.REACT_APP_USER,
+//   password: process.env.REACT_APP_PASSWORD,
 //   port: "3306"
 // })
-console.log(process.env.MYSQL_USER)
+console.log(process.env.REACT_APP_USER)
 
-var sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USER,  process.env.MYSQL_PASSWORD, {
-  host: process.env.MYSQL_HOST,
+var sequelize = new Sequelize(process.env.REACT_APP_DATABASE, process.env.REACT_APP_USER,  process.env.REACT_APP_PASSWORD, {
+  host: process.env.REACT_APP_HOST,
   port: 3306,
   dialect: 'mysql',
     dialectModule: require('mysql2'),

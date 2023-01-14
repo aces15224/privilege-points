@@ -24,11 +24,11 @@ function App() {
   const loginFunction = ()=> setLogin(!login);
   useEffect(()=>{
     console.log("YEEHAW")
-    console.log(process.env.VERCEL_URL)
+    console.log(process.env.REACT_APP_VERCEL_URL)
 
     console.log("process.env.VERCEL_URL")
     const fetchData = async () => {
-      const data = await fetch("/api/checkAuthentication")
+      const data = await fetch(`${process.env.REACT_APP_VERCEL_URL}/api/checkAuthentication`)
       .then((response)=>{
         console.log("response :" + response)
         response.json()
@@ -72,7 +72,7 @@ function App() {
   }
 
   const updatePoints = (total, memberName)=>{
-    fetch("/users", {
+    fetch(`${process.env.REACT_APP_VERCEL_URL}/users`, {
         method: "put",
         headers: {
         'Accept': 'application/json',

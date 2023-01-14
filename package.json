@@ -29,7 +29,7 @@
     "start": "npm run start:app & npm run start:server",
     "start:app": "react-scripts start",
     "start:server": "cd api && node index.js",
-    "build": "react-scripts build && npm run start",
+    "build": "react-scripts build & npm run start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
