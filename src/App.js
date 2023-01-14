@@ -27,6 +27,7 @@ function App() {
       .then((response)=>{
         console.log("response :" + response)
         response.json()
+        console.log(response.json())
       })
       .then(data => {
         console.log(data)
