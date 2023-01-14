@@ -20,17 +20,22 @@ function App() {
   //don't use points ?
   const [context_points, setContextPoints] = useState(0);
   const loginFunction = ()=> setLogin(!login);
-  useEffect(()=>{
+  useEffect(async ()=>{
     console.log("YEEHAW")
-    fetch("/api/checkAuthentication")
-        .then((response)=>response.json())
-        .then(data => {
-          console.log(data)
-            if(data.authenticated === true){
-              setLogin(true);
-              setUserName(data.user)
-            } 
-        })
+    try {
+      await fetch("/api/checkAuthentication")
+      .then((response)=>response.json())
+      .then(data => {
+        console.log(data)
+          if(data.authenticated === true){
+            setLogin(true);
+            setUserName(data.user)
+          } 
+      });
+    } catch (error) {
+      console.log('There was an error', error);
+    }
+    
   },[])
 
   const setContext = (accessId, familyId, userName, pts, permission)=>{    
