@@ -20,10 +20,10 @@ function App() {
   //don't use points ?
   const [context_points, setContextPoints] = useState(0);
   const loginFunction = ()=> setLogin(!login);
-  useEffect(async ()=>{
+  useEffect(()=>{
     console.log("YEEHAW")
-    try {
-      await fetch("/api/checkAuthentication")
+    const fetchData = async () => {
+      const data = await fetch("/api/checkAuthentication")
       .then((response)=>response.json())
       .then(data => {
         console.log(data)
@@ -32,9 +32,25 @@ function App() {
             setUserName(data.user)
           } 
       });
-    } catch (error) {
-      console.log('There was an error', error);
     }
+  
+    // call the function
+    fetchData()
+      // make sure to catch any error
+      .catch(console.error);
+    // try {
+    //   await fetch("/api/checkAuthentication")
+    //   .then((response)=>response.json())
+    //   .then(data => {
+    //     console.log(data)
+    //       if(data.authenticated === true){
+    //         setLogin(true);
+    //         setUserName(data.user)
+    //       } 
+    //   });
+    // } catch (error) {
+    //   console.log('There was an error', error);
+    // }
     
   },[])
 
