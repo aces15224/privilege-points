@@ -32,6 +32,7 @@ var mysql = require('mysql');
 //   password: process.env.MYSQL_PASSWORD,
 //   port: "3306"
 // })
+console.log(process.env.MYSQL_USER)
 
 var sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USER,  process.env.MYSQL_PASSWORD, {
   host: process.env.MYSQL_HOST,
