@@ -9,6 +9,8 @@ import Family from "./pages/Family";
 import NotFound from "./pages/NotFound";
 import './App.css';
 export const AuthContext = createContext();
+require('dotenv').config()
+
 
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
   const loginFunction = ()=> setLogin(!login);
   useEffect(()=>{
     console.log("YEEHAW")
+    console.log(process.env.VERCEL_URL)
     const fetchData = async () => {
       const data = await fetch("/api/checkAuthentication")
       .then((response)=>{
