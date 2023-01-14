@@ -25,6 +25,8 @@ function App() {
   useEffect(()=>{
     console.log("YEEHAW")
     console.log(process.env.VERCEL_URL)
+
+    console.log("process.env.VERCEL_URL")
     const fetchData = async () => {
       const data = await fetch("/api/checkAuthentication")
       .then((response)=>{

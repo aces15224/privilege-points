@@ -37,15 +37,16 @@ console.log(process.env.MYSQL_USER)
 var sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USER,  process.env.MYSQL_PASSWORD, {
   host: process.env.MYSQL_HOST,
   port: 3306,
-  dialect: "mysql",
+  dialect: 'mysql',
+    dialectModule: require('mysql2'),
   pool: {
     max: 5,
     min: 0,
     idle: 10000
   },
-  dialectOptions: {
-    ssl:'Amazon RDS'
-},
+//   dialectOptions: {
+//     ssl:'Amazon RDS'
+// },
   pool: { maxConnections: 5, maxIdleTime: 30},
   language: 'en'
 });
