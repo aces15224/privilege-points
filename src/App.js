@@ -21,6 +21,7 @@ function App() {
   const [context_points, setContextPoints] = useState(0);
   const loginFunction = ()=> setLogin(!login);
   useEffect(()=>{
+    console.log("YEEHAW")
     fetch("/api/checkAuthentication")
         .then((response)=>response.json())
         .then(data => {
