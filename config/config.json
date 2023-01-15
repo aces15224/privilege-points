@@ -2,14 +2,14 @@
     "development": {
       "username": "admin",
       "password": "2Thbrush!",
-      "database": "privilegepoints-db",
+      "database": "privilegepoints",
       "host": "privilegepoints-db.cgm3mrs9f9p9.us-east-2.rds.amazonaws.com",
       "dialect": "mysql"
     },
     "test": {
-      "username": "root",
+      "username": "admin",
       "password": null,
-      "database": "privilegePoints_db",
+      "database": "privilegepoints",
       "host": "localhost",
       "dialect": "mysql",
       "logging": false
@@ -17,7 +17,7 @@
     "production": {
       "username": "admin",
       "password": "2Thbrush!",
-      "database": "privilegepoints-db",
+      "database": "privilegepoints",
       "host": "privilegepoints-db.cgm3mrs9f9p9.us-east-2.rds.amazonaws.com",
       "dialect": "mysql"
     }

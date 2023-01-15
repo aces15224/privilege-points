@@ -118,8 +118,8 @@ const SignUp = ()=>{
         
         //this function fetches user info to verify account doesn't exist...
         async function firstCall(){
-            console.log(process.env.VERCEL_URL)
-            await fetch(`${process.env.VERCEL_URL}/users`, {
+            console.log(process.env.REACT_APP_VERCEL_URL)
+            await fetch(`${process.env.REACT_APP_VERCEL_URL}/users`, {
                 method: "post",
                 headers: {
                 'Accept': 'application/json',
