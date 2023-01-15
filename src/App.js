@@ -9,7 +9,6 @@ import Family from "./pages/Family";
 import NotFound from "./pages/NotFound";
 import './App.css';
 export const AuthContext = createContext();
-require('dotenv').config()
 
 
 
