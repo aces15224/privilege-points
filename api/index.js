@@ -34,7 +34,7 @@ app.use(apiRoutes);
 
 // app.use(express.static(path.join(__dirname, 'build')));
 app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, "..", 'public', 'index.html'));
 });
 
 // Serve up static assets (usually on heroku)
