@@ -25,6 +25,7 @@
     "sequelize": "^6.25.3",
     "web-vitals": "^2.1.4"
   },
+  "main":"./api/index.js",
   "scripts": {
     "start": "npm run start:app & npm run start:server",
     "start:app": "react-scripts start",
