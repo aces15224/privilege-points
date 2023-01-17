@@ -3,7 +3,7 @@
   "public": false,
   "builds": [
     { "src": "package.json", "use": "@vercel/static-build" },
-    { "src": "/api/index.js", "use": "@vercel/node-server" }
+    { "src": "/api/index.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/.*", "dest": "/api/index.js" },
