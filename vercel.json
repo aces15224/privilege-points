@@ -1,5 +1,4 @@
 {
-  "version": 2,
   "public": false,
   "builds": [
     { "src": "package.json", "use": "@vercel/static-build" },
