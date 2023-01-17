@@ -1,4 +1,13 @@
-
 {
-  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
+  "version": 2,
+  "public": false,
+  "builds": [
+    { "src": "package.json", "use": "@now/static-build" },
+    { "src": "/api/index.js", "use": "@now/node-server" }
+  ],
+  "routes": [
+    { "src": "/api/.*", "dest": "/api/index.js" },
+    { "src": "^/static/(.*)", "dest": "/static/$1" },
+    { "src": ".*", "dest": "/index.html" }
+  ]
 }

@@ -25,14 +25,18 @@
     "sequelize": "^6.25.3",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://localhost:8081",
+  "proxy": "http://localhost:5000/",
+
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run start:app & npm run start:server",
+    "start:app": "react-scripts start",
+    "start:server": "cd api && node index.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+    "eject": "react-scripts eject",
+    "now-build": "react-scripts build && mv build dist"
 
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

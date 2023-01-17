@@ -27,7 +27,7 @@ function App() {
 
     console.log("process.env.VERCEL_URL")
     const fetchData = async () => {
-      const data = await fetch(`${process.env.REACT_APP_VERCEL_URL}/api/checkAuthentication`)
+      const data = await fetch(`/api/checkAuthentication`)
       .then((response)=>{
         console.log("response :" + response)
         response.json()
